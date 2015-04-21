@@ -10,14 +10,21 @@ iface lo inet loopback
 # The primary network interface
 allow-hotplug eth0
 iface eth0 inet static
+<<<<<<< HEAD
 	address 10.12.1.31
 	netmask 255.255.255.0
 	# gateway 10.12.1.1
+=======
+	address 10.12.1.30
+	netmask 255.255.255.0
+#	gateway 10.12.1.1
+>>>>>>> f634149e253266f2f2f3f74717fa41d78cff2d48
 	broadcast 10.12.1.255
 	network 10.12.1.0
 	post-up route add -net 10.12.0.0/16 gw 10.12.1.1
 
 auto ix0
+<<<<<<< HEAD
 	iface ix0 inet manual
 	bond-master lacp0
 
@@ -31,10 +38,26 @@ auto ix2
 
 auto ix3
 	iface ix3 inet manual
+=======
+iface ix0 inet manual 
+	bond-master lacp0
+
+auto ix1
+iface ix1 inet manual 
+	bond-master lacp0
+
+auto ix2
+iface ix2 inet manual 
+	bond-master lacp1
+
+auto ix3
+iface ix3 inet manual 
+>>>>>>> f634149e253266f2f2f3f74717fa41d78cff2d48
 	bond-master lacp1
 
 auto lacp0
 iface lacp0 inet static
+<<<<<<< HEAD
     address 192.168.64.3
     netmask 255.255.252.0
     network 192.168.64.0
@@ -73,3 +96,40 @@ iface lacp1.902 inet static
 	broadcast 192.168.250.15
 	network 192.168.250.8
 	gateway 192.168.250.9
+=======
+	address 192.168.64.2
+	netmask 255.255.252.0
+	network 192.168.64.0
+	broadcast 192.168.79.255
+	bond-mode 802.3ad
+	bond-miimon 100
+        bond-downdelay 200
+        bond-updelay 200
+        bond-lacp-rate 4
+        # bond-slaves none
+
+auto lacp1
+iface lacp1 inet manual
+	up ifconfig lacp1 0.0.0.0 up
+	bond-mode 802.3ad
+	bond-miimon 100
+        bond-downdelay 200
+        bond-updelay 200
+        bond-lacp-rate 4
+        # bond-slaves none
+
+auto lacp1.901
+iface lacp1.901 inet static
+	address 192.168.250.3
+	netmask 255.255.255.248
+	network 192.168.250.0
+	broadcast 192.168.250.7
+	gateway 192.168.250.1
+
+auto lacp1.902
+iface lacp1.902 inet static
+	address 192.168.250.11
+	netmask 255.255.255.248
+	network 192.168.250.8
+	broadcast 192.168.250.15
+>>>>>>> f634149e253266f2f2f3f74717fa41d78cff2d48
