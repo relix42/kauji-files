@@ -1,9 +1,0 @@
-nccp-nrdp-31.cloud.netflix.net	CNAME	nccp-nosswc-cloud-netflix-net-1866492905.us-east-1.elb.amazonaws.com
-nrdp.nccp.netflix.com	CNAME	nccp-nosswc-nccp-netflix-com-1130096250.us-east-1.elb.amazonaws.com
-ios.nccp.netflix.com	CNAME	nccp-nosswc-nccp-netflix-com-1130096250.us-east-1.elb.amazonaws.com
-android.nccp.netflix.com	CNAME	nccp-nosswc-nccp-netflix-com-1130096250.us-east-1.elb.amazonaws.com
-nintendo.nccp.netflix.com	CNAME	nccp-nosswc-nccp-netflix-com-1130096250.us-east-1.elb.amazonaws.com
-appboot.netflix.com	CNAME	nccp-nosswc-netflix-com-1781911020.us-east-1.elb.amazonaws.com
-moviecontrol.netflix.com	CNAME	nccp-noss-moviecontrol-frontend-573911736.us-east-1.elb.amazonaws.com
-cbp.nccp.netflix.com	CNAME	nccp-nossglobalcbp-frontend-1754703318.us-east-1.elb.amazonaws.com
-cbp-us.nccp.netflix.com	CNAME	nccp-nossglobalcbp-frontend-1754703318.us-east-1.elb.amazonaws.com
