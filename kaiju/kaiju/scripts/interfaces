@@ -1,0 +1,57 @@
+#!/bin/bash
+
+MAPF=/etc/network/interface.map
+
+# Check if file exists and has a size larger than 0
+if [ -r "${MAPF}" ]; then
+    echo "Found ${MAPF}"
+    cat ${MAPF} | grep -v ^# | while read rawint vlan addr nm nw gw desc
+	do
+        echo "Configuring ${desc} on ${vlan}"
+		# Set up interface with VLAN tag
+		# Does it exist already?
+		DNC=`ip address show ${rawint}.${vlan} | wc -l`
+		if [ ${DNC} -lt 1 ]; then
+		    # VLAN interface doesn't exist
+		    echo "  0. Creating -- ip link add ${rawint}.${vlan} link ${rawint} type vlan id ${vlan}"
+		    ip link add ${rawint}.${vlan} link ${rawint} type vlan id ${vlan}
+		fi
+		# Set IP address
+		echo "  1. Setting -- ip address add ${addr}/${nm} dev ${rawint}.${vlan}"
+		ip address add ${addr}/${nm} dev ${rawint}.${vlan}
+		echo "  1a. Upping the interface ifconfig ${rawint}.${vlan} up"
+		ifconfig ${rawint}.${vlan} up
+		# Set default route for routing table for this interface
+		echo "  2. Configuing policy routing default -- ip route add 0.0.0.0/0 via ${gw} dev ${rawint}.${vlan} table ${vlan}"
+		ip route flush table ${vlan}
+		ip route add 0.0.0.0/0 via ${gw} dev ${rawint}.${vlan} table ${vlan}
+		echo "  3. Configuing policy routing network -- ip route add ${nw} dev ${rawint}.${vlan} src ${addr} table ${vlan}"
+		ip route add ${nw} dev ${rawint}.${vlan} src ${addr} table ${vlan}
+		echo "  4. Adding loopback route to table ${vlan}"
+		ip route add 127.0.0.0/8 dev lo table ${vlan}
+		# Add kaiju network routing for this table
+		echo "  5. Adding kaiju network route to table ${vlan}"
+		ip route add 192.168.128.0/21 dev ix0.700 table ${vlan}
+		# Packets in this interface hit the right table
+		echo "  6. Adding device source route - ip rule add from ${addr} table ${vlan}"
+		# ip rule add from ${addr} table ${vlan}
+		ip rule add fwmark ${vlan} table ${vlan}
+		# Setup the general outbound NAT rule
+		echo "  7. Adding general NAT rule for this interface - iptables -t nat -A POSTROUTING -o ${rawint}.${vlan} -j SNAT --to ${addr}"
+		iptables -t nat -D POSTROUTING -o ${rawint}.${vlan} -j MASQUERADE
+		iptables -t nat -A POSTROUTING -o ${rawint}.${vlan} -j MASQUERADE
+		# Set mangle rules
+		echo "  8. Adding the mangle rules for MARK-${vlan}"
+		iptables -t mangle -F MARK-${vlan}
+		iptables -t mangle -X MARK-${vlan}
+		iptables -t mangle -N MARK-${vlan}
+		iptables -t mangle -A MARK-${vlan} -j MARK --set-mark ${vlan}
+		iptables -t mangle -A MARK-${vlan} -j CONNMARK --save-mark
+		echo "  9. Set rules for restoring marks based on CONNTRACK data"
+		iptables -t mangle -A PREROUTING -i ${rawint}.${vlan} -m conntrack --ctstate ESTABLISHED,RELATED -j CONNMARK --restore-mark
+		iptables -t mangle -A POSTROUTING -o ${rawint}.${vlan} -m conntrack --ctstate NEW -j MARK-${vlan}
+    done
+	ip route flush cache
+else
+    echo "Unable to read mapping file ${MAPF}"
+fi

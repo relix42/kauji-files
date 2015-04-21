@@ -1,0 +1,15 @@
+api-global.netflix.com	CNAME	apiproxy-api-global-san-656276384.us-west-2.elb.amazonaws.com
+api-us.netflix.com	CNAME	apiproxy-api-global-san-656276384.us-west-2.elb.amazonaws.com
+api.netflix.com	CNAME	apiproxy-api-global-san-656276384.us-west-2.elb.amazonaws.com
+api-user.netflix.com	CNAME	apiproxy-api-global-san-656276384.us-west-2.elb.amazonaws.com
+htmltvui-api.netflix.com	CNAME	apiproxy-api-global-san-656276384.us-west-2.elb.amazonaws.com
+api-latam.netflix.com	CNAME	apiproxy-api-global-san-656276384.us-west-2.elb.amazonaws.com
+uiboot.netflix.com	CNAME	apiproxy-api-global-san-656276384.us-west-2.elb.amazonaws.com
+nccp-nrdp-31.cloud.netflix.net	CNAME	nccp-int-noss-wccloud-nf-net-999735607.us-west-2.elb.amazonaws.com
+nrdp.nccp.netflix.com	CNAME	nccp-int-noss-wc-nccp-nf-com-600062365.us-west-2.elb.amazonaws.com
+ios.nccp.netflix.com	CNAME	nccp-int-noss-wc-nccp-nf-com-600062365.us-west-2.elb.amazonaws.com
+android.nccp.netflix.com	CNAME	nccp-int-noss-wc-nccp-nf-com-600062365.us-west-2.elb.amazonaws.com
+nintendo.nccp.netflix.com	CNAME	nccp-int-noss-wc-nccp-nf-com-600062365.us-west-2.elb.amazonaws.com
+appboot.netflix.com	CNAME	nccp-int-noss-wc-netflix-com-637101584.us-west-2.elb.amazonaws.com
+moviecontrol.netflix.com	CNAME	nccp-int-noss-wc-netflix-com-637101584.us-west-2.elb.amazonaws.com
+cbp-us.nccp.test.netflix.com	CNAME	nccp-int-noss-cbp-205382592.us-west-2.elb.amazonaws.com
