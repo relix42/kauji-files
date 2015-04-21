@@ -1,0 +1,6 @@
+api.netflix.com	CNAME	apiproxy-staging-api-global-san-2065089529.us-east-1.elb.amazonaws.com
+api-us.netflix.com	CNAME	apiproxy-staging-api-global-san-2065089529.us-east-1.elb.amazonaws.com
+api-user.netflix.com	CNAME	apiproxy-staging-api-global-san-2065089529.us-east-1.elb.amazonaws.com
+htmltvui-api.netflix.com	CNAME	apiproxy-staging-api-global-san-2065089529.us-east-1.elb.amazonaws.com
+api-latam.netflix.com	CNAME	apiproxy-staging-api-global-san-2065089529.us-east-1.elb.amazonaws.com
+api-global.netflix.com	CNAME	apiproxy-staging-api-global-san-2065089529.us-east-1.elb.amazonaws.com
