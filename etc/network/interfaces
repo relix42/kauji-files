@@ -1,0 +1,27 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+#allow-hotplug eth0
+auto eth0
+iface eth0 inet static
+  address 10.2.128.165
+  netmask 255.255.252.0
+  gateway 10.2.128.1
+
+# This is an autoconfigured IPv6 interface
+#iface eth0 inet6 auto
+
+# The lab network
+auto ix0
+auto ix0.700
+iface ix0.700 inet static
+  address 192.168.128.2
+  netmask 255.255.248.0
+  vlan-raw-device eth1
+  post-up /kaiju/kaiju/scripts/interfaces
+  post-up /kaiju/kaiju/scripts/fakednsman
