@@ -3,6 +3,9 @@
 Configs and scripts for the kaiju machines
 Each individual machine has it's own branch
 This may be a horrid abuse of git
+
+Setup to get things going on a new kaiju
+
 git config --global push.default matching
 git config --global user.name Dave Hahn
 git config --global user.email dhahn@netflix.com
