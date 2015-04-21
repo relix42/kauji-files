@@ -1,0 +1,16 @@
+#! /usr/bin/env bash
+
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi
+
+ARGS='--port 53 --debug --stdout'
+while true; do
+    if [ -f /etc/fakedns.conf -a -f /apps/fakedns/fakedns.py ]; then
+        echo "Starting FakeDNS ... "
+        /apps/fakedns/fakedns.py $ARGS >> /apps/fakedns/fakedns.log
+        echo "fakedns.py exited with status $?"
+    fi
+    echo "Sleeping for 30 seconds before trying again ... "
+    sleep 30
+done

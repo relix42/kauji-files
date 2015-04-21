@@ -1,0 +1,35 @@
+#!/bin/bash
+
+INTERFACE=ix0
+MAP=/kaiju/kaiju/fakedns/apps/fakedns/configs/map
+# NM=`ifconfig ${INTERFACE} | sed -rn '2s/ .*:(.*)$/\1/p'`
+NM=24
+SERVICEDIR=/etc/service/
+
+echo "ip link add ${INTERFACE}.224 link ${INTERFACE} type vlan id 224"
+ip link add ${INTERFACE}.224 link ${INTERFACE} type vlan id 224
+
+# Setup the interfaces
+for addr in `cat ${MAP} | cut -d':' -f2`; do
+  echo "ip address add ${addr}/${NM} dev ${INTERFACE}.224"
+  ip address add ${addr}/${NM} dev ${INTERFACE}.224
+done
+
+# Verify service scripts are in place for each config
+for NAME in `cat ${MAP} | cut -d':' -f1`; do
+  if [ ! -a ${SERVICEDIR}/fakedns-${NAME} ]; then
+    # Create daemontools files, if needed, based on the map file
+    ADDRESS=`cat /kaiju/kaiju/fakedns/apps/fakedns/configs/map | grep ${NAME} | cut -d":" -f2`
+    PORT=`cat /kaiju/kaiju/fakedns/apps/fakedns/configs/map | grep ${NAME} | cut -d":" -f3`
+    CONFIG="\/kaiju\/kaiju\/fakedns\/apps\/fakedns\/configs\/${NAME}"
+    mkdir -p ${SERVICEDIR}/fakedns-${NAME}
+    touch ${SERVICEDIR}/fakedns-${NAME}/down
+    cp /kaiju/kaiju/fakedns/service/fakedns/run ${SERVICEDIR}/fakedns-${NAME}/run
+    echo ${NAME} ${ADDRESS} ${PORT} ${CONFIG}
+    sed -i -e "s/NAME/${NAME}/" ${SERVICEDIR}/fakedns-${NAME}/run
+    sed -i -e "s/PORT/${PORT}/" ${SERVICEDIR}/fakedns-${NAME}/run
+    sed -i -e "s/ADDRESS/${ADDRESS}/" ${SERVICEDIR}/fakedns-${NAME}/run
+    sed -i -e "s/CONFIG/${CONFIG}/" ${SERVICEDIR}/fakedns-${NAME}/run
+    rm ${SERVICEDIR}/fakedns-${NAME}/down
+  fi
+done

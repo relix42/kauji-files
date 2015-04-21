@@ -1,0 +1,16 @@
+#! /usr/bin/env bash
+
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi
+
+ARGS='--file CONFIG --address ADDRESS --port PORT --debug --stdout'
+while true; do
+    if [ -f CONFIG -a -f /kaiju/kaiju/fakedns/apps/fakedns/fakedns.py ]; then
+        echo "Starting FakeDNS named NAME... "
+        /kaiju/kaiju/fakedns/apps/fakedns/fakedns.py ${ARGS} >> /kaiju/kaiju/fakedns/apps/fakedns/fakedns-NAME.log
+        echo "fakedns.py exited with status $?"
+    fi
+    echo "Sleeping for 30 seconds before trying again ... "
+    sleep 30
+done
