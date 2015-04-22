@@ -1,6 +1,7 @@
 bin/
 boot/
 dev/
+etc/
 etc/.pwd.lock
 etc/Muttrc
 etc/Muttrc.d/
