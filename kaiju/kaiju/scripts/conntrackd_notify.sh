@@ -23,8 +23,12 @@ CONNTRACKD_BIN=/usr/sbin/conntrackd
 CONNTRACKD_LOCK=/var/lock/conntrack.lock
 CONNTRACKD_CONFIG=/etc/conntrackd/conntrackd.conf
 
-case "$1" in
-  primary)
+TYPE=$1
+NAME=$2
+STATE=$3
+
+case "$STATE" in
+  primary|MASTER)
     #
     # commit the external cache into the kernel table
     #
@@ -61,7 +65,7 @@ case "$1" in
         logger "ERROR: failed to invoke conntrackd -B"
     fi
     ;;
-  backup)
+  backup|BACKUP)
     #
     # is conntrackd running? request some statistics to check it
     #
@@ -106,7 +110,7 @@ case "$1" in
     	logger "ERROR: failed to invoke conntrackd -n"
     fi
     ;;
-  fault)
+  fault|FAULT)
     #
     # shorten kernel conntrack timers to remove the zombie entries.
     #
@@ -118,7 +122,7 @@ case "$1" in
     ;;
   *)
     logger "ERROR: unknown state transition"
-    echo "Usage: primary-backup.sh {primary|backup|fault}"
+    echo "Usage: primary-backup.sh {[primary|MASTER]|[backup|BACKUP]|[fault|FAULT]}"
     exit 1
     ;;
 esac
